@@ -5,7 +5,7 @@ Welcome to the Job Platform for Techies! This is a web application designed to c
 -- For Extra Information -- 
 <br>
 
-npm i express mongoose nodemon jsonwebtoken bcryptjs cookie-parser dotenv cors
+npm i express mongoose nodemon jsonwebtoken bcryptjs cookie-parser dotenv cors  ( // importing nodejs modules)
 
 <b>Express:</b>
 
