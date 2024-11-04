@@ -47,3 +47,6 @@ Use case: To safely manage configuration settings and environment variables in a
 A middleware that enables Cross-Origin Resource Sharing (CORS), which allows your API or web app to handle requests from different origins (domains).
 Use case: To enable API access from other domains, such as when building an API that a frontend application (hosted on a different domain) needs to interact with.
 
+<br>Multer and Cloudinary</br>
+We use Multer to handle file uploads for profile photos. When a user uploads a file, Multer processes it and extracts the necessary data. The uploaded file is then passed to Cloudinary, which stores the image in the cloud. After successfully uploading, Cloudinary returns a publicly accessible URL for the image. This URL is then saved in the database and can be used to display the profile photo.
+
