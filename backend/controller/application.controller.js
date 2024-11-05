@@ -45,19 +45,19 @@ success:true
  })
 }catch(error)
 {
-    console.log(error);
+    console.error(error);
 }
 };
 export const getAppliedJobs=async(req, res) => {
 try{
-const userId=req.id;
+const userid=req.id;
 const application=await Application.find({applicant:userId}).sort({createdAt:-1}).populate({
     path:'job',
   options:{sort:{createdAt:-1}},
   populate:{
    path: 'company',
    options:{sort:{createdAt:-1}},      
-}    //to extract total details of company from job.model.js  i.e 
+}    //to extract tottal details of company from job.model.js  i.e 
 //   company: {
 //     type: mongoose.Schema.Types.ObjectId,
 //     ref: 'Company',
@@ -76,10 +76,10 @@ application,
 success:true
 })
 }catch(error) {
-console.log(error);
+console.error(error);
 }
 }
-//admin checks number of applicants applied for this job
+//admin checks number of applicants applied ffpr this job
 export const getApplicants =async(req,res) => {
 try{
 const jobId=req.params.id;
@@ -121,7 +121,7 @@ if(!status)
         success:false
     }) 
 };
-//find the application by applicant id
+//find the aapplication by applicant id
 const application = await Application.findOne({_id:applicationId});
 if(!application) {
     return  res.status(404).json({

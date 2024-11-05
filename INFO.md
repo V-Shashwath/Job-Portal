@@ -47,6 +47,18 @@ Use case: To safely manage configuration settings and environment variables in a
 A middleware that enables Cross-Origin Resource Sharing (CORS), which allows your API or web app to handle requests from different origins (domains).
 Use case: To enable API access from other domains, such as when building an API that a frontend application (hosted on a different domain) needs to interact with.
 
-<br>Multer and Cloudinary</br>
+<b>Multer and Cloudinary</b>
+
 We use Multer to handle file uploads for profile photos. When a user uploads a file, Multer processes it and extracts the necessary data. The uploaded file is then passed to Cloudinary, which stores the image in the cloud. After successfully uploading, Cloudinary returns a publicly accessible URL for the image. This URL is then saved in the database and can be used to display the profile photo.
 
+<b>Radix UI</b>
+
+Radix UI is a library of unstyled, low-level, accessible UI components for building custom design systems. It focuses on accessibility best practices, providing composable components like modals, dropdowns, and tooltips, which can be easily styled to match your design requirements, without sacrificing usability or accessibility.
+
+<b>ShadCN UI</b>
+
+ShadCN UI is a component library built on Radix UI that offers pre-styled, accessible components. It combines Radix’s flexibility with beautiful default designs, making it ideal for developers who want accessibility and styling out of the box while retaining the ability to customize for their design system.
+
+<b>Vite</b>
+
+Vite is a modern, fast build tool and development server for web applications. It features instant hot module replacement (HMR), fast builds using native ES modules, and supports modern JavaScript features out of the box. Vite is optimized for React, Vue, and other frameworks, improving development speed and performance.
