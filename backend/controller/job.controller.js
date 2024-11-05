@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import{ Job} from "../models/job.model.js";
-=======
-import{ Job} from " ../models/job.model.js";
->>>>>>> afb8654e653db44dcebf6e62d301a7ad2ff6a9dc
 //job posted by admin
 export  const postJob = async (req, res)=>
 {
@@ -29,11 +25,7 @@ export  const postJob = async (req, res)=>
         experienceLevel:experience,
         position,
        company: companyId,
-<<<<<<< HEAD
        created_by: userId
-=======
-       creted_by: userId
->>>>>>> afb8654e653db44dcebf6e62d301a7ad2ff6a9dc
       });
       return res.status(201).json({
         message:"Job posted successfully",
