@@ -2,42 +2,104 @@ import React from 'react'
 import Navbar from '../shared/Navbar'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '../ui/button'
 import { RadioGroup } from '../ui/radio-group'
+import { useState } from 'react'
+import { USER_API_END_POINT } from '@/utils/constant'
+import { toast } from 'sonner'
+import axios from 'axios';
+
 
 const Signup = () => {
+
+    const [input, setInput] = useState({
+        fullname:"",
+        email:"",
+        phoneNumber:"",
+        password:"",
+        role:"",
+        file:""
+    });
+
+    const navigate = useNavigate();
+
+    const changeEventHandler = (e) => {
+        setInput({...input, [e.target.name]: e.target.value});
+    }
+    const changeFileHandler = (e) => {
+        setInput({...input, file:e.target.files?.[0]});
+    }
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append("fullname",input.fullname);
+        formData.append("email",input.email);
+        formData.append("phoneNumber",input.phoneNumber);
+        formData.append("password",input.password);
+        formData.append("role",input.role);
+        if(input.file){
+            formData.append("file",input.file);
+        }
+        try{
+            const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
+                headers: { 'Content-Type': "multipart/form-data" },
+                withCredentials: true,
+            } );
+            if(res.data.success){
+                navigate("/login");
+                toast.success(res.data.message);
+            }
+        }
+        catch(error){
+            console.log(error);
+            toast.error(error.response.data.message);
+        }
+    }
+
     return (
         <div>
             <Navbar />
             <div className='flex items-center justify-center max-w-7xl mx-auto'>
-                <form action="" className='w-1/2 border border-gray-200 rounded-md p-4 my-10'>
+                <form onSubmit={submitHandler} className='w-1/2 border border-gray-200 rounded-md p-4 my-10'>
                     <h1 className='font-bold text-xl mb-5'>Sign Up</h1>
                     <div className='my-2'>
                         <Label>Full Name</Label>
                         <Input
                             type="text"
+                            value={input.fullname}
+                            name="fullname"
+                            onChange={changeEventHandler}
                             placeholder="Enter your name"
                         />
                     </div>
                     <div className='my-2'>
                         <Label>Email</Label>
                         <Input
-                            type="text"
+                            type="email"
+                            value={input.email}
+                            name="email"
+                            onChange={changeEventHandler}
                             placeholder="Enter your email"
                         />
                     </div>
                     <div className='my-2'>
-                        <Label>Mobile Number</Label>
+                        <Label>Phone Number</Label>
                         <Input
                             type="text"
+                            value={input.phoneNumber}
+                            name="phoneNumber"
+                            onChange={changeEventHandler}
                             placeholder="Enter your mobile number"
                         />
                     </div>
                     <div className='my-2'>
                         <Label>Password</Label>
                         <Input
-                            type="text"
+                            type="password"
+                            value={input.password}
+                            name="password"
+                            onChange={changeEventHandler}
                             placeholder="Enter password"
                         />
                     </div>
@@ -47,7 +109,9 @@ const Signup = () => {
                                 <Input
                                 type="radio"
                                 name="role"
-                                value="Student"
+                                value="student"
+                                checked={input.role == 'student'}
+                                onChange={changeEventHandler}
                                 className="cursor-pointer"
                                 />
                                 <Label htmlFor="r1">Student</Label>
@@ -56,7 +120,9 @@ const Signup = () => {
                             <Input
                                 type="radio"
                                 name="role"
-                                value="Recruiter"
+                                value="recruiter"
+                                checked={input.role == 'recruiter'}
+                                onChange={changeEventHandler}
                                 className="cursor-pointer"
                                 />
                                 <Label htmlFor="r2">Recruiter</Label>
@@ -67,6 +133,7 @@ const Signup = () => {
                             <Input
                                 accept="image/*"
                                 type="file"
+                                onChange={changeFileHandler}
                                 className="cursor-pointer"
                             />
                         </div>
