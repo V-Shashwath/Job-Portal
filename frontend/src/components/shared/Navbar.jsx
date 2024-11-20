@@ -13,21 +13,21 @@ import { toast } from 'sonner'
 
 
 const Navbar = () => {
-    
-    const {user} = useSelector(store => store.auth);
+
+    const { user } = useSelector(store => store.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const logoutHandler = async () => {
-        try{
-            const res = axios.get(`${USER_API_END_POINT}/logout`,{withCredentials:true});
-            if((await res).data.success){
+        try {
+            const res = axios.get(`${USER_API_END_POINT}/logout`, { withCredentials: true });
+            if ((await res).data.success) {
                 dispatch(setUser(null));
                 navigate("/");
                 toast.success((await res).data.message);
             }
         }
-        catch(error){
+        catch (error) {
             console.log(error);
             toast.error(error.response.data.message);
         }
@@ -41,9 +41,20 @@ const Navbar = () => {
                 </div>
                 <div className='flex items-center gap-12'>
                     <ul className='flex font-medium items-center gap-5'>
-                        <li><Link to="/">Home</Link></li>
-                        <li><Link to="/jobs">Jobs</Link></li>
-                        <li><Link to="/browse">Browse</Link></li>
+                        {
+                            user && user.role === 'recruiter' ? (
+                                <>
+                                    <li><Link to="/admin/companies">Companies</Link></li>
+                                    <li><Link to="/admin/jobs">Jobs</Link></li>
+                                </>
+                            ) : (
+                                <>
+                                    <li><Link to="/">Home</Link></li>
+                                    <li><Link to="/jobs">Jobs</Link></li>
+                                    <li><Link to="/browse">Browse</Link></li>
+                                </>
+                            )
+                        }
 
                     </ul>
                     {
@@ -54,37 +65,41 @@ const Navbar = () => {
                             </div>
                         ) : (
                             <Popover>
-                            <PopoverTrigger asChild>
-                                <Avatar className='cursor-pointer'>
-                                    <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
-                                </Avatar>
-                            </PopoverTrigger>
-                            <PopoverContent className='w-80'>
-                                <div className='flex gap-4 space-y-2'>
+                                <PopoverTrigger asChild>
                                     <Avatar className='cursor-pointer'>
                                         <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
                                     </Avatar>
-                                    <div>
-                                        <h4 className='font-medium'>{user?.fullname}</h4>
-                                        <p className='text-sm text-muted-foreground'>{user?.profile?.bio}</p>
+                                </PopoverTrigger>
+                                <PopoverContent className='w-80'>
+                                    <div className='flex gap-4 space-y-2'>
+                                        <Avatar className='cursor-pointer'>
+                                            <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
+                                        </Avatar>
+                                        <div>
+                                            <h4 className='font-medium'>{user?.fullname}</h4>
+                                            <p className='text-sm text-muted-foreground'>{user?.profile?.bio}</p>
+                                        </div>
                                     </div>
-                                </div>
-    
-                                <div className='flex flex-col my-2 gap-2 text-gray-600'>
-                                    <div className='flex w-fit items-center gap-2 cursor-pointer'>
-                                        <User2 />
-                                        <Button variant='link'><Link to ="/profile">View Profile</Link></Button>
+
+                                    <div className='flex flex-col my-2 gap-2 text-gray-600'>
+                                        {
+                                            user && user.role === 'student' && (
+                                                <div className='flex w-fit items-center gap-2 cursor-pointer'>
+                                                    <User2 />
+                                                    <Button variant="link"> <Link to="/profile">View Profile</Link></Button>
+                                                </div>
+                                            )
+                                        }
+                                        <div className='flex w-fit items-center gap-2 cursor-pointer'>
+                                            <LogOut />
+                                            <Button onClick={logoutHandler} variant='link'>Logout</Button>
+                                        </div>
                                     </div>
-                                    <div className='flex w-fit items-center gap-2 cursor-pointer'>
-                                        <LogOut />
-                                        <Button onClick={logoutHandler} variant='link'>Logout</Button>
-                                    </div>
-                                </div>
-                            </PopoverContent>
-                        </Popover>
+                                </PopoverContent>
+                            </Popover>
                         )
                     }
-                    
+
                 </div>
             </div>
 
