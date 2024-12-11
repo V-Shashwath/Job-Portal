@@ -36,7 +36,8 @@ export  const postJob = async (req, res)=>
     }
     catch(error)
     {
-        console.log(error);
+        console.log(error); 
+        
     }
 }
 //for students
