@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Navbar from '../shared/Navbar'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
@@ -24,7 +24,7 @@ const Signup = () => {
         file:""
     });
 
-    const {loading} = useSelector(store => store.auth);
+    const {loading,user} = useSelector(store => store.auth);
     const navigate = useNavigate();
     const dispath = useDispatch();
 
@@ -64,6 +64,12 @@ const Signup = () => {
             dispath(setLoading(false));
         }
     }
+
+    useEffect(()=>{
+            if(user){
+                navigate("/");
+            }
+    },[])
 
     return (
         <div>
