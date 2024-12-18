@@ -17,7 +17,8 @@ const Browse = () => {
         }
     }, [])
 
-    return (
+    return ( 
+        
         <div>
             <Navbar />
             <div className=' max-w-7xl mx-auto my-10'>
