@@ -61,12 +61,12 @@ const ApplicantsTable = () => {
                     <PopoverTrigger>
                       <MoreHorizontal />
                     </PopoverTrigger>
-                    <PopoverContent className='w-32'>
+                    <PopoverContent className='w-30'>
                       {
                         shortlistingStatus.map((status, index) => {
                           return (
                             <div onClick={() => statusHandler(status, item?._id)} key={index} className='flex w-fit items-center my-2 cursor-pointer'>
-                              <span>{status}</span>
+                              <span className={`block w-20 h-10 text-center font-bold py-2 rounded-sm  ${status === 'Accepted' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}>{status}</span>
                             </div>
                           )
                         })
