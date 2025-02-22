@@ -1,6 +1,5 @@
 import React from 'react'
 import { Button } from './ui/button'
-import { Bookmark } from 'lucide-react'
 import { Avatar, AvatarImage } from './ui/avatar'
 import { Badge } from './ui/badge'
 import { useNavigate } from 'react-router-dom'
@@ -20,7 +19,6 @@ const Job = ({job}) => {
         <div className='p-5 rounded-md shadow-xl border border-gray-100 bg-purple-50'>
             <div className='flex items-center justify-between'>
                 <p className='text-sm text-gray-500'>{daysAgoFunction(job?.createdAt) === 0 ? "Today" : `${daysAgoFunction(job?.createdAt)} days ago`}</p>
-                <Button variant="outline" className="rounded-full" size="icon"><Bookmark /></Button>
             </div>
 
             <div className='flex items-center gap-2 my-2'>
