@@ -5,36 +5,39 @@ import { useDispatch } from 'react-redux';
 import { setSearchedQuery } from '@/redux/jobSlice';
 
 const filterData = [
-    {
-        filterType: "Location",
-        array: ["Bengaluru", "Hyderabad", "Pune", "Mumbai", "Gurgaon", "Chennai"]
-    },
-    {
-        filterType: "Domain",
-        array: ["Cloud", "Software", "Data", "Cybersecurity"]
-    },
-    {
-        filterType: "Salary",
-        array: ["1-5LPA", "6-10LPA", "11-15LPA", "16-24LPA", "25LPA+"]
-    }
+    { filterType: "Location", array: ["Bengaluru", "Hyderabad", "Pune", "Mumbai", "Gurgaon", "Chennai"] },
+    { filterType: "Domain", array: ["Cloud", "Software", "Data", "Cybersecurity"] },
 ];
 
-const FilterCard = ({ setSelectedSalary }) => {
-    const [selectedValue, setSelectedValue] = useState("");
+const FilterCard = ({ salaryRanges }) => {
+    const [selectedValue, setSelectedValue] = useState(""); 
+    const [selectedSalaryRange, setSelectedSalaryRange] = useState(""); 
     const dispatch = useDispatch();
-    
+
     const changeHandler = (value) => {
-        setSelectedValue(value);
+        setSelectedValue(value);  
+        setSelectedSalaryRange('');  
+    };
+
+    const salaryChangeHandler = (value) => {
+        setSelectedSalaryRange(value);  
+        setSelectedValue('');  
     };
 
     useEffect(() => {
-        dispatch(setSearchedQuery(selectedValue));
-    }, [selectedValue, dispatch]);
+        if (selectedSalaryRange) {
+            dispatch(setSearchedQuery(selectedSalaryRange)); 
+        } else {
+            dispatch(setSearchedQuery(selectedValue)); 
+        }
+    }, [selectedValue, selectedSalaryRange, dispatch]);
 
     return (
         <div className='w-full bg-white p-3 rounded-md'>
             <h1 className='font-bold text-lg'>Filter Jobs</h1>
             <hr className='mt-3' />
+
+            {/* Location and Domain filters */}
             <RadioGroup value={selectedValue} onValueChange={changeHandler}>
                 {filterData.map((data, index) => (
                     <div key={index}>
@@ -43,15 +46,25 @@ const FilterCard = ({ setSelectedSalary }) => {
                             const itemId = `id${index}-${idx}`;
                             return (
                                 <div className='flex items-center space-x-2 my-2' key={itemId}>
-                                    <RadioGroupItem value={item} id={itemId} onChange={() => {
-                                        if (data.filterType === "Salary") {
-                                            setSelectedSalary(item);  // Passing selected salary to parent
-                                        }
-                                    }} />
+                                    <RadioGroupItem value={item} id={itemId} />
                                     <Label htmlFor={itemId}>{item}</Label>
                                 </div>
                             );
                         })}
+                    </div>
+                ))}
+            </RadioGroup>
+
+            {/* Salary filter */}
+            <RadioGroup value={selectedSalaryRange} onValueChange={salaryChangeHandler}>
+                <h1 className='font-bold text-lg mt-3'>Salary</h1>
+                {Object.keys(salaryRanges).map((range, idx) => (
+                    <div key={idx} className='flex items-center space-x-2 my-1'>
+                        <RadioGroupItem
+                            value={range}
+                            id={`salary-${range}`}
+                        />
+                        <Label htmlFor={`salary-${range}`}>{range}</Label>
                     </div>
                 ))}
             </RadioGroup>
@@ -60,4 +73,3 @@ const FilterCard = ({ setSelectedSalary }) => {
 };
 
 export default FilterCard;
-
