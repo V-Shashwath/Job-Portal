@@ -31,7 +31,7 @@ app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
 
 const corsOptions = {
-    origin: 'https://job-portal-ten-lime.vercel.app',
+    origin: 'https://job-portal-oyue.onrender.com',
     credentials : true
 }
 app.use(cors(corsOptions));
